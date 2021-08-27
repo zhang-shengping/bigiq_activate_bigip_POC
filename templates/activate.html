@@ -1,0 +1,94 @@
+<!doctype html>
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
+  <title>Activate BigIP Demo</title>
+</head>
+
+<body>
+  <div class="container">
+  <h2>Activate BigIP</h2>
+  
+  <form id="userform" action="/form" method="POST">
+    <div class="form-group">
+      <label class="visually-hidden">BigIP Username</label>
+      <input type="text" class="form-control" id="ip" name="address" placeholder="192.168.123.123">
+    </div>
+    </br>
+
+    <div class="form-group">
+      <label class="visually-hidden">BigIP Username</label>
+      <input type="text" class="form-control" id="un" name="username" placeholder="admin">
+    </div>
+    </br>
+  
+    <div class="form-group">
+      <label class="visually-hidden">BigIP Password</label>
+      <input type="text" class="form-control" id="pd" name="password" placeholder="password">
+    </div>
+    </br>
+  
+    <div class="from-group">
+      <button type="submit" id="activate" class="btn btn-primary">Activate BigIP</button>
+    </div>
+    </br>
+  </form>
+
+  <!-- 
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+        $("#activate").click(function() {
+  -->
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+  <script type="text/javascript">
+
+    function sleep(milliseconds) {
+      const date = Date.now();
+      let currentDate = null;
+      do {
+        currentDate = Date.now();
+      } while (currentDate - date < milliseconds);
+    }
+
+    $(document).ready(function() {
+        //$("#userform").submit(function(event) {
+        $("#activate").click(function(event) {
+
+	  event.preventDefault();
+	  var ip = $("#ip").val()
+          var username = $("#un").val();
+	  var password = $("#pd").val();
+	  console.log(username);
+          console.log(password)
+
+	  $(this).prop("disabled", true);
+          $(this).html(
+            `<span class="spinner-border spinner-border-sm" id="spn" role="status" aria-hidden="true"></span>`
+          );
+
+	  var formData = {
+	    ip: ip,
+	    username: username,
+	    password: password
+          };
+          var success = "<span></span> Finished";
+	  $.ajax({
+	    type:"POST",
+	    url:"/form",
+	    data: formData,
+	    complete: function(){
+              console.log("start...")
+	      $("#spn").replaceWith(success)
+              console.log("end ...")
+	    },
+          })
+        });
+    });
+  </script>
+</body>
